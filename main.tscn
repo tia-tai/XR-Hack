@@ -1,12 +1,18 @@
 [gd_scene format=3 uid="uid://dnnvbq1dubml1"]
 
-[ext_resource type="Script" uid="uid://bx3vo21cuj7pj" path="res://main.gd" id="1_ig7tw"]
-[ext_resource type="Script" uid="uid://cj6aow3gc4vhe" path="res://xr_visuals.gd" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://v4bbtfxluagp" path="res://xr_hands.gd" id="3_hnd0v"]
-[ext_resource type="PackedScene" uid="uid://1qvjtj5tmo70" path="res://models/quest_touch_plus_left.glb" id="4_mdll"]
-[ext_resource type="PackedScene" uid="uid://cn5kxyuuli1wv" path="res://models/quest_touch_plus_right.glb" id="5_mdlr"]
-[ext_resource type="Script" uid="uid://bkeashwobe3gi" path="res://xr_passthrough.gd" id="6_pass"]
+[ext_resource type="Script" uid="uid://bx3vo21cuj7pj" path="res://scripts/main.gd" id="1_ig7tw"]
+[ext_resource type="Script" uid="uid://cj6aow3gc4vhe" path="res://scripts/xr/xr_visuals.gd" id="2_0xm2m"]
+[ext_resource type="Script" uid="uid://v4bbtfxluagp" path="res://scripts/xr/xr_hands.gd" id="3_hnd0v"]
+[ext_resource type="PackedScene" uid="uid://1qvjtj5tmo70" path="res://assets/models/quest_touch_plus_left.glb" id="4_mdll"]
+[ext_resource type="PackedScene" uid="uid://cn5kxyuuli1wv" path="res://assets/models/quest_touch_plus_right.glb" id="5_mdlr"]
+[ext_resource type="Script" uid="uid://bkeashwobe3gi" path="res://scripts/xr/xr_passthrough.gd" id="6_pass"]
 [ext_resource type="Shader" uid="uid://bdncegx70k5ge" path="res://floor_grid.gdshader" id="7_grid"]
+[ext_resource type="Script" uid="uid://cfn836ci8hru1" path="res://autoload/game_manager.gd" id="8_5vw27"]
+[ext_resource type="Script" uid="uid://cwfy0fpqf8l77" path="res://scenes/levels/cutscene_apartment.gd" id="9_efxa6"]
+[ext_resource type="Script" uid="uid://dbuue1mrs7fdx" path="res://scenes/levels/city_traversal.gd" id="10_dg77c"]
+[ext_resource type="Script" uid="uid://bgu3eb21wpy7o" path="res://scenes/levels/plane_crash_site.gd" id="11_ycdy4"]
+[ext_resource type="Script" uid="uid://bsn5lbj10p1ir" path="res://scripts/player/web_shooter.gd" id="12_dg77c"]
+[ext_resource type="Script" uid="uid://mhr2ewd0pybi" path="res://scripts/player/player_movement.gd" id="13_ycdy4"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cjouy"]
 
@@ -76,32 +82,10 @@ height = 0.14
 height = 0.14
 radius = 0.04
 
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j2lt4"]
+
 [node name="Main" type="Node3D" unique_id=500145794]
 script = ExtResource("1_ig7tw")
-
-[node name="XROrigin3D" type="XROrigin3D" parent="." unique_id=1033207768]
-
-[node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D" unique_id=807774865]
-
-[node name="XRControllerLeft" type="XRController3D" parent="XROrigin3D" unique_id=130472835]
-tracker = &"left_hand"
-pose = &"grip"
-show_when_tracked = true
-
-[node name="XRControllerRight" type="XRController3D" parent="XROrigin3D" unique_id=991621539]
-tracker = &"right_hand"
-pose = &"grip"
-show_when_tracked = true
-
-[node name="XRVisuals" type="Node3D" parent="XROrigin3D" unique_id=1921252323]
-script = ExtResource("2_0xm2m")
-left_controller = NodePath("../XRControllerLeft")
-right_controller = NodePath("../XRControllerRight")
-left_model = ExtResource("4_mdll")
-right_model = ExtResource("5_mdlr")
-
-[node name="XRHands" type="Node3D" parent="XROrigin3D" unique_id=204813822]
-script = ExtResource("3_hnd0v")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=868570715]
 environment = SubResource("Environment_lts4m")
@@ -178,3 +162,55 @@ directional_shadow_max_distance = 12.0
 script = ExtResource("6_pass")
 world_environment = NodePath("../WorldEnvironment")
 hide_in_passthrough = Array[NodePath]([NodePath("../Floor")])
+
+[node name="GameManager" type="Node" parent="." unique_id=2011559731]
+script = ExtResource("8_5vw27")
+
+[node name="Levels" type="Node" parent="." unique_id=136567822]
+
+[node name="CutsceneApartment" type="Node3D" parent="Levels" unique_id=2108173058 node_paths=PackedStringArray("cutscene_camera")]
+script = ExtResource("9_efxa6")
+cutscene_camera = NodePath("../../CharacterBody3D/XROrigin3D/XRCamera3D")
+
+[node name="CityTraversal" type="Node3D" parent="Levels" unique_id=2066433413]
+script = ExtResource("10_dg77c")
+
+[node name="PlaneCrashSite" type="Node3D" parent="Levels" unique_id=2087189958]
+script = ExtResource("11_ycdy4")
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1251742282 node_paths=PackedStringArray("web_shooter", "xr_origin")]
+script = ExtResource("13_ycdy4")
+web_shooter = NodePath("WebShooter")
+xr_origin = NodePath("XROrigin3D")
+
+[node name="XROrigin3D" type="XROrigin3D" parent="CharacterBody3D" unique_id=1033207768]
+
+[node name="XRCamera3D" type="XRCamera3D" parent="CharacterBody3D/XROrigin3D" unique_id=807774865]
+
+[node name="XRControllerLeft" type="XRController3D" parent="CharacterBody3D/XROrigin3D" unique_id=130472835]
+tracker = &"left_hand"
+pose = &"grip"
+show_when_tracked = true
+
+[node name="XRControllerRight" type="XRController3D" parent="CharacterBody3D/XROrigin3D" unique_id=991621539]
+tracker = &"right_hand"
+pose = &"grip"
+show_when_tracked = true
+
+[node name="XRVisuals" type="Node3D" parent="CharacterBody3D/XROrigin3D" unique_id=1921252323]
+script = ExtResource("2_0xm2m")
+left_controller = NodePath("../XRControllerLeft")
+right_controller = NodePath("../XRControllerRight")
+left_model = ExtResource("4_mdll")
+right_model = ExtResource("5_mdlr")
+
+[node name="XRHands" type="Node3D" parent="CharacterBody3D/XROrigin3D" unique_id=204813822]
+script = ExtResource("3_hnd0v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=487425190]
+shape = SubResource("CapsuleShape3D_j2lt4")
+
+[node name="WebShooter" type="Node3D" parent="CharacterBody3D" unique_id=1531131878 node_paths=PackedStringArray("player_body", "xr_origin")]
+script = ExtResource("12_dg77c")
+player_body = NodePath("..")
+xr_origin = NodePath("../XROrigin3D")
