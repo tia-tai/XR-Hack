@@ -1,0 +1,45 @@
+[remap]
+
+importer="texture"
+type="CompressedTexture2D"
+uid="uid://dc0wa5qy8l1ax"
+path.s3tc="res://.godot/imported/SceneModel_Cine_Peter_web_design_notebook_n.texture copy.webp-0efa153e7622d020d899b3bd37c16598.s3tc.ctex"
+path.etc2="res://.godot/imported/SceneModel_Cine_Peter_web_design_notebook_n.texture copy.webp-0efa153e7622d020d899b3bd37c16598.etc2.ctex"
+metadata={
+"imported_formats": ["s3tc_bptc", "etc2_astc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "d79827e04a37ad7b0a8a87b542c745a9"
+}
+
+[deps]
+
+source_file="res://assets/models/SceneModel_Cine_Peter_web_design_notebook_n.texture copy.webp"
+dest_files=["res://.godot/imported/SceneModel_Cine_Peter_web_design_notebook_n.texture copy.webp-0efa153e7622d020d899b3bd37c16598.s3tc.ctex", "res://.godot/imported/SceneModel_Cine_Peter_web_design_notebook_n.texture copy.webp-0efa153e7622d020d899b3bd37c16598.etc2.ctex"]
+
+[params]
+
+compress/mode=2
+compress/high_quality=false
+compress/lossy_quality=0.7
+compress/uastc_level=0
+compress/rdo_quality_loss=0.0
+compress/hdr_compression=1
+compress/normal_map=1
+compress/channel_pack=0
+mipmaps/generate=true
+mipmaps/limit=-1
+roughness/mode=1
+roughness/src_normal="res://models/SceneModel_Cine_Peter_web_design_notebook_n.texture copy.webp"
+process/channel_remap/red=0
+process/channel_remap/green=1
+process/channel_remap/blue=2
+process/channel_remap/alpha=3
+process/fix_alpha_border=true
+process/premult_alpha=false
+process/normal_map_invert_y=false
+process/hdr_as_srgb=false
+process/hdr_clamp_exposure=false
+process/size_limit=0
+detect_3d/compress_to=0
