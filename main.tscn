@@ -13,6 +13,8 @@
 [ext_resource type="Script" uid="uid://bgu3eb21wpy7o" path="res://scenes/levels/plane_crash_site.gd" id="11_ycdy4"]
 [ext_resource type="Script" uid="uid://bsn5lbj10p1ir" path="res://scripts/player/web_shooter.gd" id="12_dg77c"]
 [ext_resource type="Script" uid="uid://mhr2ewd0pybi" path="res://scripts/player/player_movement.gd" id="13_ycdy4"]
+[ext_resource type="PackedScene" uid="uid://b0828cacdfggh" path="res://assets/models/CityModel.blend" id="14_w48qg"]
+[ext_resource type="PackedScene" uid="uid://xkxhlkcg0dcn" path="res://assets/models/airplanemodel.blend" id="15_vivmo"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_cjouy"]
 
@@ -84,6 +86,13 @@ radius = 0.04
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_j2lt4"]
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_j2lt4"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_f0wx2"]
+size = Vector3(61.80716, 1, 85.03308)
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s345g"]
+
 [node name="Main" type="Node3D" unique_id=500145794]
 script = ExtResource("1_ig7tw")
 
@@ -91,6 +100,7 @@ script = ExtResource("1_ig7tw")
 environment = SubResource("Environment_lts4m")
 
 [node name="Floor" type="StaticBody3D" parent="." unique_id=1222995564]
+visible = false
 
 [node name="Mesh" type="MeshInstance3D" parent="Floor" unique_id=1788946882]
 material_override = SubResource("ShaderMaterial_floor")
@@ -102,6 +112,7 @@ shape = SubResource("BoxShape3D_floor")
 
 [node name="Table" type="StaticBody3D" parent="." unique_id=1222995565]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, -0.6)
+visible = false
 
 [node name="Mesh" type="MeshInstance3D" parent="Table" unique_id=1507181728]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0029900074, 0)
@@ -113,6 +124,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0020278692, 0)
 shape = SubResource("BoxShape3D_table")
 
 [node name="Props" type="Node3D" parent="." unique_id=546788418]
+visible = false
 
 [node name="Box" type="RigidBody3D" parent="Props" unique_id=1568289628]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.3, 0.9, -0.6)
@@ -150,7 +162,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0027546883)
 shape = SubResource("CylinderShape3D_prop")
 
 [node name="SunLight" type="DirectionalLight3D" parent="." unique_id=1844096403]
-transform = Transform3D(0.86601907, -0.3535631, 0.35355926, 0, 0.70710295, 0.70711064, -0.500011, -0.61237127, 0.6123646, 0, 2.9986405, 0)
+transform = Transform3D(0.86601907, -0.3535631, 0.35355926, 0, 0.70710295, 0.70711064, -0.500011, -0.61237127, 0.6123646, 0, 35.644936, 0)
 light_energy = 1.1
 shadow_enabled = true
 shadow_bias = 0.03
@@ -179,6 +191,7 @@ script = ExtResource("10_dg77c")
 script = ExtResource("11_ycdy4")
 
 [node name="CharacterBody3D" type="CharacterBody3D" parent="." unique_id=1251742282 node_paths=PackedStringArray("web_shooter", "xr_origin")]
+transform = Transform3D(0.9999697, 0.0049767904, -0.0059723738, -0.00495388, 0.99998033, 0.003845279, 0.0059913914, -0.0038155802, 0.9999747, -16.900726, 16.835941, 0)
 script = ExtResource("13_ycdy4")
 web_shooter = NodePath("WebShooter")
 xr_origin = NodePath("XROrigin3D")
@@ -208,9 +221,32 @@ right_model = ExtResource("5_mdlr")
 script = ExtResource("3_hnd0v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D" unique_id=487425190]
+transform = Transform3D(0.02, -2.0861535e-11, 2.910383e-11, 1.6484591e-12, 0.02, -2.1827873e-11, 0, 0, 0.020000005, 6.2196198, 0.016485214, 3.7253032)
 shape = SubResource("CapsuleShape3D_j2lt4")
 
 [node name="WebShooter" type="Node3D" parent="CharacterBody3D" unique_id=1531131878 node_paths=PackedStringArray("player_body", "xr_origin")]
 script = ExtResource("12_dg77c")
 player_body = NodePath("..")
 xr_origin = NodePath("../XROrigin3D")
+
+[node name="CityModel" parent="." unique_id=230943057 instance=ExtResource("14_w48qg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -3.31919, 0, -8.034853)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="CityModel" unique_id=1977050896]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CityModel/StaticBody3D" unique_id=451773940]
+shape = SubResource("BoxShape3D_j2lt4")
+
+[node name="StaticBody3D" type="StaticBody3D" parent="." unique_id=41909724]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D" unique_id=1632212973]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -5.697405, 1.5778534, -9.477659)
+shape = SubResource("BoxShape3D_f0wx2")
+
+[node name="airplanemodel" parent="." unique_id=2009441064 instance=ExtResource("15_vivmo")]
+transform = Transform3D(0.2, 0, 0, 0, 0.18390132, -0.07861492, 0, 0.07861492, 0.18390132, -10.696964, 24.942509, -36.29551)
+
+[node name="StaticBody3D" type="StaticBody3D" parent="airplanemodel" unique_id=1035316801]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="airplanemodel/StaticBody3D" unique_id=299489761]
+shape = SubResource("BoxShape3D_s345g")

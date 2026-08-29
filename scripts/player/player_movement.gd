@@ -5,10 +5,12 @@ class_name PlayerMovement
 @export var xr_origin: XROrigin3D
 
 @export_group("Swing Physics")
-@export var gravity: float = 14.0
-@export var reel_in_speed: float = 6.0       # Base speed at which rope automatically shortens
-@export var arm_pull_boost: float = 300.0     # Launch impulse added when physically pulling your arm back
-@export var air_drag: float = 0.03            # Low air resistance to maintain swing momentum
+@export var gravity: float = 9.8
+@export var reel_in_speed: float = 2.0            # Speed at which rope shortens (reduced from 6.0)
+@export var arm_pull_boost: float = 60.0          # Pull impulse strength (reduced from 300.0)
+@export var max_hand_pull_speed: float = 2.0      # Cap hand tracking speed to ignore VR jitter spikes
+@export var max_swing_speed: float = 28.0         # Max velocity cap to keep swings controlled
+@export var air_drag: float = 0.07                # Air drag to prevent infinite speed buildup
 
 const HAND_TRACKERS: Array[StringName] = [
 	&"/user/hand_tracker/left",
@@ -27,17 +29,21 @@ var _prev_local_hand_positions: Array[Vector3] = [Vector3.ZERO, Vector3.ZERO]
 
 
 func _physics_process(delta: float) -> void:
-	# 1. Apply constant gravity
+	# 1. Apply gravity when airborne
 	if not is_on_floor():
 		velocity.y -= gravity * delta
 
 	# 2. Process dynamic pendulum rope physics for both hands
 	_process_rope_swing(delta)
 
-	# 3. Apply minor air resistance in free flight
+	# 3. Apply air drag to bleed excess speed smoothly
 	velocity -= velocity * air_drag * delta
 
-	# 4. Move player body (and child XROrigin3D / XRCamera3D)
+	# 4. Cap overall velocity to prevent wild exponential launches
+	if velocity.length() > max_swing_speed:
+		velocity = velocity.normalized() * max_swing_speed
+
+	# 5. Move player body
 	move_and_slide()
 
 
@@ -74,23 +80,25 @@ func _process_rope_swing(delta: float) -> void:
 			var prev_local_hand := _prev_local_hand_positions[hand]
 			_prev_local_hand_positions[hand] = current_local_hand
 
-			var hand_pull_speed := (current_local_hand - prev_local_hand).length() / delta
+			# Calculate raw hand speed and clamp it to filter out VR tracking noise/spikes
+			var raw_hand_speed := (current_local_hand - prev_local_hand).length() / delta
+			var hand_pull_speed := minf(raw_hand_speed, max_hand_pull_speed)
 
-			# Reel in web rope length when physically pulling back arm
-			var reel_amount := (reel_in_speed + hand_pull_speed * 4.0) * delta
-			_rope_lengths[hand] = maxf(3.0, _rope_lengths[hand] - reel_amount)
+			# Reel in web rope gradually
+			var reel_amount := (reel_in_speed + hand_pull_speed * 1.5) * delta
+			_rope_lengths[hand] = maxf(4.0, _rope_lengths[hand] - reel_amount)
 
 			# --- PENDULUM ROPE CONSTRAINT MATH ---
 			# If the rope is taut (player distance >= set rope length)
 			if current_dist >= _rope_lengths[hand]:
 				var radial_vel := velocity.dot(dir_to_anchor)
 
-				# If moving away from anchor (radial_vel < 0), strip away outward velocity component
+				# Strip away outward velocity component smoothly
 				if radial_vel < 0.0:
 					velocity -= dir_to_anchor * radial_vel
 
-				# Add physical arm pull impulse along rope direction for dynamic acceleration
-				if hand_pull_speed > 0.05:
+				# Add controlled physical arm pull impulse
+				if hand_pull_speed > 0.1:
 					velocity += dir_to_anchor * (hand_pull_speed * arm_pull_boost * delta)
 		else:
 			_prev_local_hand_positions[hand] = tracker.get_hand_joint_transform(XRHandTracker.HAND_JOINT_WRIST).origin

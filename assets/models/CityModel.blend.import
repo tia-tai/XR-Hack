@@ -3,7 +3,7 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://cx7f71s0v1fnc"
+uid="uid://b0828cacdfggh"
 path="res://.godot/imported/CityModel.blend-97b6369bba2347b2ff909ce973d52c6f.scn"
 
 [deps]
@@ -39,7 +39,66 @@ import_script/path=""
 materials/extract=0
 materials/extract_format=0
 materials/extract_path=""
-_subresources={}
+_subresources={
+"nodes": {
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_10": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_11": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_12": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_13": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_14": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_15": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_16": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_3": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_4": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_5": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_6": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_7": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_8": {
+"generate/physics": true,
+"physics/shape_type": 2
+},
+"PATH:Sketchfab_model/ny_clean_up2_obj_cleaner_materialmerger_gles/Object_9": {
+"generate/physics": true,
+"physics/shape_type": 2
+}
+}
+}
 blender/nodes/visible=0
 blender/nodes/active_collection_only=false
 blender/nodes/punctual_lights=true
